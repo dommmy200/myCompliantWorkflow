@@ -218,8 +218,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const month  = (date.getMonth() + 1).toString().padStart(2, '0');
         const day    = date.getDate().toString().padStart(2, '0');
         const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-        return `SSCS-${year}${month}${day}-${random}`;
+        return `SSCS${year}${month}${day}-${random}`;
     }
+    
     // ── Render message to DOM only (no history push) ──
     function renderMessage(text, sender) {
         const conversationView = document.getElementById('conversationView');
