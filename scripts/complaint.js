@@ -16,15 +16,6 @@ if (navToggle) {
     });
 }
 
-// ── Case number generator ───────────────────────────
-function generateCaseNumber() {
-    const d   = new Date();
-    const yr  = d.getFullYear().toString().slice(-2);
-    const mo  = String(d.getMonth() + 1).padStart(2, '0');
-    const rnd = Math.floor(10000 + Math.random() * 90000);
-    return 'SSCS-' + yr + mo + '-' + rnd;
-}
-
 // ── Complaint form submission ───────────────────────
 const form         = document.getElementById('complaintForm');
 const popupOverlay = document.getElementById('popupOverlay');
@@ -49,48 +40,48 @@ function closePopup(overlay) {
     document.body.style.width = '';
 }
 
-if (form) {
-    form.addEventListener('submit', async function (e) {
-        e.preventDefault();
+// if (form) {
+//     form.addEventListener('submit', async function (e) {
+//         e.preventDefault();
 
-        const caseNumber = generateCaseNumber();
-        document.getElementById('caseNumber').value = caseNumber;
+//         const caseNumber = generateCaseNumber();
+//         document.getElementById('caseNumber').value = caseNumber;
 
-        let payload = {
-            caseNumber,
-            fullName:    document.getElementById('fullName').value,
-            email:       document.getElementById('email').value,
-            description: document.getElementById('description').value,
-            timestamp:   new Date().toISOString(),
-        };
-    // ── Send to n8n Webhook ──────────────────────────
-        try {
-            // Testing: https://group2cse499.app.n8n.cloud/webhook-test/1f4557fb-1fe4-4055-b64c-96f0ca5bd258
-            // Production: https://group2cse499.app.n8n.cloud/webhook/1f4557fb-1fe4-4055-b64c-96f0ca5bd258
-            const response = await fetch('https://group2cse499.app.n8n.cloud/webhook-test/1f4557fb-1fe4-4055-b64c-96f0ca5bd258', {
-                method:  'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                    //'x-api-key':    'your-demo-secret-key',    matches Header Auth in n8n
-                },
-                body: JSON.stringify(payload),
-            });
+//         let payload = {
+//             caseNumber,
+//             fullName:    document.getElementById('fullName').value,
+//             email:       document.getElementById('email').value,
+//             description: document.getElementById('description').value,
+//             timestamp:   new Date().toISOString(),
+//         };
+//     // ── Send to n8n Webhook ──────────────────────────
+//         try {
+//             // Testing: https://group2cse499.app.n8n.cloud/webhook-test/1f4557fb-1fe4-4055-b64c-96f0ca5bd258
+//             // Production: https://group2cse499.app.n8n.cloud/webhook/1f4557fb-1fe4-4055-b64c-96f0ca5bd258
+//             const response = await fetch('https://group2cse499.app.n8n.cloud/webhook-test/1f4557fb-1fe4-4055-b64c-96f0ca5bd258', {
+//                 method:  'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                     //'x-api-key':    'your-demo-secret-key',    matches Header Auth in n8n
+//                 },
+//                 body: JSON.stringify(payload),
+//             });
 
-            if (!response.ok) {
-                throw new Error('Webhook responded with status: ' + response.status);
-            }
+//             if (!response.ok) {
+//                 throw new Error('Webhook responded with status: ' + response.status);
+//             }
 
-            const result = await response.json();
-            console.log('n8n response:', result);
-            // ── Show popup only after successful submission ──
-            openPopup(popupOverlay);
+//             const result = await response.json();
+//             console.log('n8n response:', result);
+//             // ── Show popup only after successful submission ──
+//             openPopup(popupOverlay);
 
-        } catch (error) {
-            console.error('Submission failed:', error);
-            openPopup(errorPopupOverlay);
-        }
-    });
-}
+//         } catch (error) {
+//             console.error('Submission failed:', error);
+//             openPopup(errorPopupOverlay);
+//         }
+//     });
+// }
 
 // ── Success popup buttons ───────────────────────────
 if (popupNewBtn) {
