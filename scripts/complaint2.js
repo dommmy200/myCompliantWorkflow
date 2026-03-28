@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const badge       = document.createElement('div');
                 badge.className   = 'status-badge status-pending';
                 badge.textContent = '⏳ Awaiting additional information';
-                document.querySelector('.form-section')
+                document.querySelector('.form-section1')
                         .insertBefore(badge, document.getElementById('complaintForm'));
             }
 
