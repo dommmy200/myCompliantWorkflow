@@ -1,0 +1,73 @@
+<!-- This page is a test page that integrates with complaint2.js and complaint2.css-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Complaint Reporting</title>
+    <link rel="stylesheet" href="./styles/complaint2.css">
+    <script src="./scripts/complaint2.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Complaint Form Card -->
+        <div class="card" id="formCard">
+            <div class="header">
+                <h1>🏥 Healthcare Complaint Reporting</h1>
+                <p>Report malpractice in health and administrative services</p>
+            </div>
+            <div class="form-section">
+                <div id="conversationView" class="conversation-container hidden"></div>
+                <form id="complaintForm">
+                    <div class="form-group">
+                        <label for="fullName" class="required">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="Your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="required">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="For case updates">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="required">Complaint Description</label>
+                        <textarea id="description" name="description" required 
+                            placeholder="Please include these details if possible:
+• Incident Date: [YYYY-MM-DD]
+• Facility: [name and location]
+• Complaint Type: [misdiagnosis/medication error/surgical/administrative]
+• Reported Severity: [low/medium/high]
+• Related: [Self, Brother, Client...
+• Withness: [Any witness]
+
+Then describe what happened in detail..."></textarea>
+                        <div class="keyword-hint"><br>
+                            <strong><p>• Incident Date: [YYYY-MM-DD]</p>
+                                <p>• Facility: [name and location]</p>
+                                <p>• Complaint Type: [misdiagnosis/medication error
+                                    /surgical/administrative]</p>
+                                <p>• Reported Severity: [low/medium/high]</p><br>
+
+                                Then describe what happened in detail...
+                            </strong><br>
+                        </div>
+                    </div>
+                    <button type="submit" id="submitBtn">Submit Complaint</button>
+                </form>
+                <div id="loadingIndicator" class="loading hidden">Processing your complaint...</div>
+            </div>
+        </div>
+
+        <!-- Success Card (hidden initially) -->
+        <div class="card hidden" id="successCard">
+            <div class="header" style="background: #2d6a4f;">
+                <h1>✅ Complaint Submitted</h1>
+            </div>
+            <div class="form-section" style="text-align: center;">
+                <p>Your case number is:</p>
+                <div class="case-number" id="displayCaseNumber"></div>
+                <p style="margin-top: 20px;">You will receive a confirmation email shortly.</p>
+                <button onclick="resetAndShowForm()" style="background: #2d6a4f; margin-top: 20px;">Submit Another Complaint</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
