@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // ── Done — show success card ───────────────
             document.getElementById('formCard').classList.add('hidden');
             document.getElementById('successCard').classList.remove('hidden');
-            document.getElementById('displayCaseNumber').textContent = response.caseNumber;
+            document.getElementById('displayCaseNumber').textContent = currentCaseNumber;
             saveState();
 
         } else if (response.status === 'incomplete') {
@@ -350,11 +350,19 @@ document.addEventListener('DOMContentLoaded', function () {
         submitBtn.disabled    = true;
         loadingEl.classList.remove('hidden');
 
+        // ── Generate case number ONCE and lock it ──────
+        if (!currentCaseNumber) {
+            currentCaseNumber = generateCaseNumber();
+            console.log('Generated new case number:', currentCaseNumber);
+        } else {
+            console.log('Reusing existing case number:', currentCaseNumber);
+        }
         // ── Build payload ──────────────────────────────
-        const isFollowUp = !!currentCaseNumber;
+        // const isFollowUp = !!currentCaseNumber;
+        const isFollowUp = conversationHistory.length > 0;
 
         const data = {
-            caseNumber:   currentCaseNumber || generateCaseNumber(),
+            caseNumber:   currentCaseNumber, // always the same locked value
             timestamp:    new Date().toISOString(),
             fullName:     fullName,
             email:        email,
@@ -363,12 +371,15 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         // Store case number after first generation
-        if (!currentCaseNumber) currentCaseNumber = data.caseNumber;
+        // if (!currentCaseNumber) currentCaseNumber = data.caseNumber;
 
         // Include conversation history for context
         if (isFollowUp) {
             data.conversationHistory = conversationHistory;
         }
+
+        console.log('Sending payload with caseNumber:', data.caseNumber);
+        console.log('isFollowUp:', data.isFollowUp);
 
         try {
             const response = await submitToWebhook(data);
